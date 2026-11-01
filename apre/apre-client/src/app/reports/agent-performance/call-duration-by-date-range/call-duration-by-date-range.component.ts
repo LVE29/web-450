@@ -20,7 +20,7 @@ import { environment } from '../../../../environments/environment';
             <app-calendar (dateSelected)="onStartDateSelected($event)"></app-calendar>
           </div>
           <div class="calendar-form__item">
-            <label class="calendar-form__label" for="endDate">End Date:</label>
+            <label class="calendar-form__label" for="endDate">End Date: <span class="required-indicator" aria-hidden="true">*</span></label>
             <app-calendar (dateSelected)="onEndDateSelected($event)"></app-calendar>
           </div>
         </div>
@@ -67,6 +67,10 @@ import { environment } from '../../../../environments/environment';
     .calendar-form__label {
       padding-right: 10px;
     }
+    .required-indicator {
+  color: #d32f2f;
+  font-weight: bold;
+}
 
     .calendar-form__actions .button {
       margin-top: 10%;
