@@ -3,6 +3,10 @@
  * Date: 8/8/2024
  * File: app.routes.ts
  * Description: Application routes
+ *
+ * Modified by: Leslie Espino
+ * Date: 11/1/2026
+ * Description: Added routing for the Monthly Sales Report.
  */
 
 // Import the necessary modules
@@ -25,7 +29,7 @@ import { CallDurationByDateRangeComponent } from './reports/agent-performance/ca
 import { ChannelRatingByMonthComponent } from './reports/customer-feedback/channel-rating-by-month/channel-rating-by-month.component';
 import { CustomerFeedbackComponent } from './reports/customer-feedback/customer-feedback.component';
 import { SalesByRegionTabularComponent } from './reports/sales/sales-by-region-tabular/sales-by-region-tabular.component';
-
+import { MonthlySalesComponent } from './reports/monthly-sales/monthly-sales.component';
 // Export user-management routes
 export const userManagementRoutes: Routes = [
   {
@@ -56,6 +60,10 @@ export const salesReportRoutes: Routes = [
   {
     path: 'sales-by-region-tabular',
     component: SalesByRegionTabularComponent
+  },
+  {
+    path: 'monthly-sales',
+    component: MonthlySalesComponent
   }
 ];
 

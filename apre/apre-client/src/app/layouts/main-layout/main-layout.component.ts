@@ -4,6 +4,10 @@
  * Date: 8/8/2024
  * File: main-layout.component.ts
  * Description: Main layout of the MEAN Stack Application
+ *
+ * Modified by: Leslie Espino
+ * Date: 11/1/2026
+ * Description: Added Monthly Sales to the sales report navigation.
  */
 import { Component } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
@@ -303,12 +307,14 @@ export class MainLayoutComponent {
     { name: 'Create User', url: '/user-management/users/new' },
   ];
 
+
   // Array to hold the sales reports links in the side menu. These links are visible to all users
   salesReports = [
     { name: 'Sales by Region', url: '/reports/sales/sales-by-region' },
     { name: 'Sales by Region - Tabular', url: '/reports/sales/sales-by-region-tabular' },
-    // Add more reports as needed
+    { name: 'Monthly Sales', url: '/reports/sales/monthly-sales' }
   ];
+
 
   agentPerformanceReports = [
     { name: 'Call Duration by Date Range', url: '/reports/agent-performance/call-duration-by-date-range' }

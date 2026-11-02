@@ -3,6 +3,10 @@
  * Date: 10 September 2024
  * File: index.spec.js
  * Description: Test the sales report API
+ *
+ * Modified by: Leslie Espino
+ * Date: 11/1/2026
+ * Description: Added three unit tests for the monthly sales report API.
  */
 
 // Require the modules
@@ -141,5 +145,98 @@ describe('Apre Sales Report API - Sales by Region', () => {
       status: 404,
       type: 'error'
     });
+  });
+});
+
+
+/**
+ * Author: Leslie Espino
+ * Date: 11/1/2026
+ * Description: Unit tests for the monthly sales report API.
+ */
+describe('Apre Sales Report API - Monthly Sales', () => {
+  beforeEach(() => {
+    mongo.mockReset();
+  });
+
+  it('should return monthly sales totals in chronological order', async () => {
+    const monthlySales = [
+      { year: 2026, month: 1, totalSales: 2500 },
+      { year: 2026, month: 2, totalSales: 3200 }
+    ];
+
+    const aggregate = jest.fn().mockReturnValue({
+      toArray: jest.fn().mockResolvedValue(monthlySales)
+    });
+
+    mongo.mockImplementation(async (callback) => {
+      await callback({
+        collection: jest.fn().mockReturnValue({ aggregate })
+      });
+    });
+
+    const response = await request(app)
+      .get('/api/reports/sales/monthly');
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(monthlySales);
+    expect(aggregate).toHaveBeenCalledWith([
+      { $match: { date: { $type: 'date' } } },
+      {
+        $group: {
+          _id: {
+            year: { $year: '$date' },
+            month: { $month: '$date' }
+          },
+          totalSales: { $sum: '$amount' }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          year: '$_id.year',
+          month: '$_id.month',
+          totalSales: 1
+        }
+      },
+      { $sort: { year: 1, month: 1 } }
+    ]);
+  });
+
+  it('should return an empty array when no monthly sales exist', async () => {
+    mongo.mockImplementation(async (callback) => {
+      await callback({
+        collection: jest.fn().mockReturnValue({
+          aggregate: jest.fn().mockReturnValue({
+            toArray: jest.fn().mockResolvedValue([])
+          })
+        })
+      });
+    });
+
+    const response = await request(app)
+      .get('/api/reports/sales/monthly');
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual([]);
+  });
+
+  it('should return a server error when the database query fails', async () => {
+    mongo.mockImplementation(async (callback) => {
+      await callback({
+        collection: jest.fn().mockReturnValue({
+          aggregate: jest.fn().mockReturnValue({
+            toArray: jest.fn().mockRejectedValue(
+              new Error('Database query failed')
+            )
+          })
+        })
+      });
+    });
+
+    const response = await request(app)
+      .get('/api/reports/sales/monthly');
+
+    expect(response.status).toBe(500);
   });
 });
