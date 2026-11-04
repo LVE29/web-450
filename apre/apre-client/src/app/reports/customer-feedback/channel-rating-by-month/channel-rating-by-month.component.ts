@@ -1,3 +1,15 @@
+/**
+ * Author: Leslie Espino
+ * Date: 11/03/2026
+ * File: channel-rating-by-month.component.ts
+ * Description: Displays customer feedback ratings by month.
+ *
+ * Week 3 - Task m-017:
+ * Updated the report button text from "Submit" to "Get Data"
+ * to make its purpose clearer to users. The existing form
+ * submission and report functionality remain unchanged.
+ */
+
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { ChartComponent } from '../../../shared/chart/chart.component';
@@ -28,7 +40,8 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
           </select>
         </div>
         <div class="form__actions">
-          <button class="button button--primary" type="submit">Submit</button>
+         <!-- Task m-017: Clarify the button's purpose without changing form submission. -->
+<button class="button button--primary" type="submit">Get Data</button>
         </div>
       </form>
 
