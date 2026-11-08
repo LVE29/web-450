@@ -93,4 +93,60 @@ router.get('/call-duration-by-date-range', (req, res, next) => {
   }
 });
 
+
+/**
+ * Author: Leslie Espino
+ * Date: 11/08/2026
+ * Task: M-084 - Agent Performance Report
+ * Description: Retrieves average performance scores for
+ * each agent to support the Sprint 2 report.
+ *
+ * GET /agent-performance-summary
+ */
+router.get('/agent-performance-summary', (req, res, next) => {
+  mongo(async db => {
+    const report = await db.collection('agentPerformance').aggregate([
+      {
+        $lookup: {
+          from: 'agents',
+          localField: 'agentId',
+          foreignField: 'agentId',
+          as: 'agentInfo'
+        }
+      },
+      {
+        $unwind: '$agentInfo'
+      },
+      {
+        $group: {
+          _id: {
+            agentId: '$agentId',
+            name: '$agentInfo.name'
+          },
+          averagePerformance: {
+            $avg: {
+              $avg: '$performanceMetrics.value'
+            }
+          }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          agentId: '$_id.agentId',
+          name: '$_id.name',
+          averagePerformance: 1
+        }
+      },
+      {
+        $sort: {
+          name: 1
+        }
+      }
+    ]).toArray();
+
+    res.json(report);
+  }, next);
+});
+
 module.exports = router;
