@@ -316,10 +316,20 @@ export class MainLayoutComponent {
   ];
 
 
+
+  // Agent performance reports available in the side menu
   agentPerformanceReports = [
-    { name: 'Call Duration by Date Range', url: '/reports/agent-performance/call-duration-by-date-range' }
-    // Add more reports as needed
+    {
+      name: 'Call Duration by Date Range',
+      url: '/reports/agent-performance/call-duration-by-date-range'
+    },
+    // Week 3 - M-084: Added the Agent Performance Report
+    {
+      name: 'Agent Performance Report',
+      url: '/reports/agent-performance/agent-performance-summary'
+    }
   ];
+
 
   customerFeedbackReports = [
     { name: 'Channel Rating by Month', url: '/reports/customer-feedback/channel-rating-by-month' }

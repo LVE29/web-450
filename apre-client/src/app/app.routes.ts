@@ -30,6 +30,8 @@ import { ChannelRatingByMonthComponent } from './reports/customer-feedback/chann
 import { CustomerFeedbackComponent } from './reports/customer-feedback/customer-feedback.component';
 import { SalesByRegionTabularComponent } from './reports/sales/sales-by-region-tabular/sales-by-region-tabular.component';
 import { MonthlySalesComponent } from './reports/monthly-sales/monthly-sales.component';
+// Week 3 - M-084: Agent Performance Report
+import { AgentPerformanceSummaryComponent } from './reports/agent-performance/agent-performance-summary/agent-performance-summary.component';
 // Export user-management routes
 export const userManagementRoutes: Routes = [
   {
@@ -67,13 +69,20 @@ export const salesReportRoutes: Routes = [
   }
 ];
 
-// Agent performance routes
+
+ // Agent performance routes
 export const agentPerformanceRoutes: Routes = [
   {
     path: 'call-duration-by-date-range',
     component: CallDurationByDateRangeComponent
+  },
+  // Week 3 - M-084: Display the new Agent Performance Report
+  {
+    path: 'agent-performance-summary',
+    component: AgentPerformanceSummaryComponent
   }
 ];
+
 
 // Customer feedback routes
 export const customerFeedbackRoutes: Routes = [
