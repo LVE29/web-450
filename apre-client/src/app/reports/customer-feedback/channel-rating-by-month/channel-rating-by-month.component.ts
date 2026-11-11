@@ -1,3 +1,4 @@
+
 /**
  * Author: Leslie Espino
  * Date: 11/03/2026
@@ -8,6 +9,10 @@
  * Updated the report button text from "Submit" to "Get Data"
  * to make its purpose clearer to users. The existing form
  * submission and report functionality remain unchanged.
+ *
+ * Week 4 - Task m-018:
+ * Added a tooltip to the Get Data button to explain its purpose
+ * when users hover over it. Form functionality remains unchanged.
  */
 
 import { ChangeDetectorRef, Component } from '@angular/core';
@@ -39,9 +44,16 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
             }
           </select>
         </div>
+
         <div class="form__actions">
-         <!-- Task m-017: Clarify the button's purpose without changing form submission. -->
-<button class="button button--primary" type="submit">Get Data</button>
+          <!-- Task m-017: Clarify the button's purpose without changing form submission. -->
+          <!-- Task m-018: Add a tooltip explaining what the button does when hovered over. -->
+          <button
+            class="button button--primary"
+            type="submit"
+            title="Click to fetch data">
+            Get Data
+          </button>
         </div>
       </form>
 
@@ -79,7 +91,11 @@ export class ChannelRatingByMonthComponent {
     month: [null, Validators.compose([Validators.required])]
   });
 
-  constructor(private http: HttpClient, private fb: FormBuilder, private cdr: ChangeDetectorRef) {
+  constructor(
+    private http: HttpClient,
+    private fb: FormBuilder,
+    private cdr: ChangeDetectorRef
+  ) {
     this.months = this.loadMonths();
     this.errorMessage = '';
   }
@@ -98,7 +114,7 @@ export class ChannelRatingByMonthComponent {
       { value: 10, name: 'October' },
       { value: 11, name: 'November' },
       { value: 12, name: 'December' }
-    ]
+    ];
   }
 
   onSubmit() {
@@ -108,12 +124,15 @@ export class ChannelRatingByMonthComponent {
     }
 
     const month = this.monthForm.controls['month'].value;
-    this.http.get(`${environment.apiBaseUrl}/reports/customer-feedback/channel-rating-by-month?month=${month}`).subscribe({
+
+    this.http.get(
+      `${environment.apiBaseUrl}/reports/customer-feedback/channel-rating-by-month?month=${month}`
+    ).subscribe({
       next: (data: any) => {
         if (data.length === 0) {
           const selectedMonth = this.months.find(m => m.value === Number(month));
           console.error('No data found for', selectedMonth.name);
-          this.errorMessage = `No data found for ${selectedMonth.name}`
+          this.errorMessage = `No data found for ${selectedMonth.name}`;
           return;
         }
 
